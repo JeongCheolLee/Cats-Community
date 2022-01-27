@@ -1,18 +1,15 @@
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
 import { CatsService } from './cats.service';
 import {
+  Body,
   Controller,
   Get,
-  HttpException,
-  Param,
-  ParseIntPipe,
-  Patch,
   Post,
-  Put,
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
+import { CatRequestDto } from './dto/cats.request.dto';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -25,9 +22,11 @@ export class CatsController {
     return 'current cat';
   }
 
+  //validation 을 위한 DTO
   @Post()
-  async signUp() {
-    return 'signup';
+  async signUp(@Body() body: CatRequestDto) {
+    console.log(body);
+    return await this.catsService.signUp(body);
   }
 
   @Post('login')
