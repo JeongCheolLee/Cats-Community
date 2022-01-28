@@ -8,28 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CatsService = void 0;
+const cats_repository_1 = require("./cats.repository");
 const common_1 = require("@nestjs/common");
-const cats_schema_1 = require("./cats.schema");
-const mongoose_1 = require("mongoose");
-const mongoose_2 = require("@nestjs/mongoose");
 const bcrypt = require("bcrypt");
 let CatsService = class CatsService {
-    constructor(catModel) {
-        this.catModel = catModel;
+    constructor(catsRepository) {
+        this.catsRepository = catsRepository;
     }
     async signUp(body) {
         const { email, name, password } = body;
-        const isCatExists = await this.catModel.exists({ email });
+        const isCatExists = await this.catsRepository.existsByEmail(email);
         if (isCatExists) {
             throw new common_1.UnauthorizedException('이미 존재하는 고양이입니다.');
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const cat = await this.catModel.create({
+        const cat = await this.catsRepository.create({
             email,
             name,
             password: hashedPassword,
@@ -39,8 +34,7 @@ let CatsService = class CatsService {
 };
 CatsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_2.InjectModel)(cats_schema_1.Cat.name)),
-    __metadata("design:paramtypes", [mongoose_1.Model])
+    __metadata("design:paramtypes", [cats_repository_1.CatsRepository])
 ], CatsService);
 exports.CatsService = CatsService;
 //# sourceMappingURL=cats.service.js.map
