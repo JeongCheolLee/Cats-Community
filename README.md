@@ -1,2 +1,2 @@
 # Cats-Community
-learning NestJS by toy project
+learning TS & NestJS by toy project
