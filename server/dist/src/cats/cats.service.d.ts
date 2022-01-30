@@ -1,9 +1,8 @@
+import { CatsRepository } from './cats.repository';
 import { CatRequestDto } from './dto/cats.request.dto';
-import { Cat } from './cats.schema';
-import { Model } from 'mongoose';
 export declare class CatsService {
-    private readonly catModel;
-    constructor(catModel: Model<Cat>);
+    private readonly catsRepository;
+    constructor(catsRepository: CatsRepository);
     signUp(body: CatRequestDto): Promise<{
         id: string;
         email: string;
