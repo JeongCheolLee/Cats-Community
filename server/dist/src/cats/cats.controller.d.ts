@@ -6,7 +6,7 @@ export declare class CatsController {
     private readonly catsService;
     private readonly authService;
     constructor(catsService: CatsService, authService: AuthService);
-    getCurrentCat(): string;
+    getCurrentCat(cat: any): any;
     signUp(body: CatRequestDto): Promise<{
         id: string;
         email: string;
@@ -15,6 +15,5 @@ export declare class CatsController {
     login(data: LoginRequestDto): Promise<{
         token: string;
     }>;
-    logOut(): string;
     uploadCatImg(): string;
 }

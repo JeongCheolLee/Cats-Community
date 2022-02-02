@@ -21,6 +21,10 @@ let CatsRepository = class CatsRepository {
     constructor(catModel) {
         this.catModel = catModel;
     }
+    async findCatByIdWithoutPassword(catId) {
+        const cat = await this.catModel.findById(catId).select('-password');
+        return cat;
+    }
     async findCatByEmail(email) {
         const cat = await this.catModel.findOne({ email });
         return cat;

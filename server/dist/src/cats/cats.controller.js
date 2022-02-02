@@ -13,6 +13,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CatsController = void 0;
+const user_decorator_1 = require("./../common/decorators/user.decorator");
+const jwt_guard_1 = require("./../../auth/jwt/jwt.guard");
 const login_request_dto_1 = require("./../../auth/dto/login.request.dto");
 const auth_service_1 = require("./../../auth/auth.service");
 const cat_dto_1 = require("./dto/cat.dto");
@@ -27,8 +29,8 @@ let CatsController = class CatsController {
         this.catsService = catsService;
         this.authService = authService;
     }
-    getCurrentCat() {
-        return 'current cat';
+    getCurrentCat(cat) {
+        return cat.readOnlyData;
     }
     async signUp(body) {
         console.log(body);
@@ -37,18 +39,17 @@ let CatsController = class CatsController {
     login(data) {
         return this.authService.jwtLogIn(data);
     }
-    logOut() {
-        return 'logput';
-    }
     uploadCatImg() {
         return 'uploadImg';
     }
 };
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '현재 고양이 가져오기' }),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Get)(),
+    __param(0, (0, user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], CatsController.prototype, "getCurrentCat", null);
 __decorate([
@@ -76,13 +77,6 @@ __decorate([
     __metadata("design:paramtypes", [login_request_dto_1.LoginRequestDto]),
     __metadata("design:returntype", void 0)
 ], CatsController.prototype, "login", null);
-__decorate([
-    (0, swagger_1.ApiOperation)({ summary: '로그아웃' }),
-    (0, common_1.Post)('logout'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], CatsController.prototype, "logOut", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '고양이 이미지 업로드' }),
     (0, common_1.Post)('upload/cats'),

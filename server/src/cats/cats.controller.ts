@@ -1,3 +1,5 @@
+import { CurrentUser } from './../common/decorators/user.decorator';
+import { JwtAuthGuard } from './../../auth/jwt/jwt.guard';
 import { LoginRequestDto } from './../../auth/dto/login.request.dto';
 import { AuthService } from './../../auth/auth.service';
 import { ReadOnlyCatDto } from './dto/cat.dto';
@@ -8,7 +10,9 @@ import {
   Controller,
   Get,
   Post,
+  Req,
   UseFilters,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
@@ -25,9 +29,10 @@ export class CatsController {
   ) {}
 
   @ApiOperation({ summary: '현재 고양이 가져오기' })
+  @UseGuards(JwtAuthGuard)
   @Get()
-  getCurrentCat() {
-    return 'current cat';
+  getCurrentCat(@CurrentUser() cat) {
+    return cat.readOnlyData;
   }
 
   //validation 을 위한 DTO
@@ -52,11 +57,13 @@ export class CatsController {
   login(@Body() data: LoginRequestDto) {
     return this.authService.jwtLogIn(data);
   }
-  @ApiOperation({ summary: '로그아웃' })
-  @Post('logout')
-  logOut() {
-    return 'logput';
-  }
+
+  //fronte 에서 제거하면 로그아웃이 된거니까 필요 없다.
+  // @ApiOperation({ summary: '로그아웃' })
+  // @Post('logout')
+  // logOut() {
+  //   return 'logput';
+  // }
 
   @ApiOperation({ summary: '고양이 이미지 업로드' })
   @Post('upload/cats')
