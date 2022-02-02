@@ -21,6 +21,10 @@ let CatsRepository = class CatsRepository {
     constructor(catModel) {
         this.catModel = catModel;
     }
+    async findCatByEmail(email) {
+        const cat = await this.catModel.findOne({ email });
+        return cat;
+    }
     async existsByEmail(email) {
         const result = await this.catModel.exists({ email });
         return result;

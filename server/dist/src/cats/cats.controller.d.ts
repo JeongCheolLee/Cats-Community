@@ -1,15 +1,20 @@
+import { LoginRequestDto } from './../../auth/dto/login.request.dto';
+import { AuthService } from './../../auth/auth.service';
 import { CatsService } from './cats.service';
 import { CatRequestDto } from './dto/cats.request.dto';
 export declare class CatsController {
     private readonly catsService;
-    constructor(catsService: CatsService);
+    private readonly authService;
+    constructor(catsService: CatsService, authService: AuthService);
     getCurrentCat(): string;
     signUp(body: CatRequestDto): Promise<{
         id: string;
         email: string;
         name: string;
     }>;
-    login(): string;
+    login(data: LoginRequestDto): Promise<{
+        token: string;
+    }>;
     logOut(): string;
     uploadCatImg(): string;
 }

@@ -15,6 +15,7 @@ const cats_module_1 = require("./cats/cats.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const config_1 = require("@nestjs/config");
 const mongoose = require("mongoose");
+const auth_module_1 = require("../auth/auth.module");
 let AppModule = class AppModule {
     constructor() {
         this.isDev = process.env.MODE === 'dev' ? true : false;
@@ -33,6 +34,7 @@ AppModule = __decorate([
                 useUnifiedTopology: true,
             }),
             cats_module_1.CatsModule,
+            auth_module_1.AuthModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

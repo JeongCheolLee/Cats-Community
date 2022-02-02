@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CatsModule = void 0;
+const auth_module_1 = require("../../auth/auth.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
 const cats_controller_1 = require("./cats.controller");
@@ -17,10 +18,13 @@ let CatsModule = class CatsModule {
 };
 CatsModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: cats_schema_1.Cat.name, schema: cats_schema_1.CatSchema }])],
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: cats_schema_1.Cat.name, schema: cats_schema_1.CatSchema }]),
+            (0, common_1.forwardRef)(() => auth_module_1.AuthModule),
+        ],
         controllers: [cats_controller_1.CatsController],
         providers: [cats_service_1.CatsService, cats_repository_1.CatsRepository],
-        exports: [cats_service_1.CatsService],
+        exports: [cats_service_1.CatsService, cats_repository_1.CatsRepository],
     })
 ], CatsModule);
 exports.CatsModule = CatsModule;

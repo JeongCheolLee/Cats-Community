@@ -13,6 +13,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CatsController = void 0;
+const login_request_dto_1 = require("./../../auth/dto/login.request.dto");
+const auth_service_1 = require("./../../auth/auth.service");
 const cat_dto_1 = require("./dto/cat.dto");
 const http_exception_filter_1 = require("../common/exceptions/http-exception.filter");
 const cats_service_1 = require("./cats.service");
@@ -21,8 +23,9 @@ const success_interceptor_1 = require("../common/interceptors/success.intercepto
 const cats_request_dto_1 = require("./dto/cats.request.dto");
 const swagger_1 = require("@nestjs/swagger");
 let CatsController = class CatsController {
-    constructor(catsService) {
+    constructor(catsService, authService) {
         this.catsService = catsService;
+        this.authService = authService;
     }
     getCurrentCat() {
         return 'current cat';
@@ -31,8 +34,8 @@ let CatsController = class CatsController {
         console.log(body);
         return await this.catsService.signUp(body);
     }
-    login() {
-        return 'login';
+    login(data) {
+        return this.authService.jwtLogIn(data);
     }
     logOut() {
         return 'logput';
@@ -68,8 +71,9 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '로그인' }),
     (0, common_1.Post)('login'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [login_request_dto_1.LoginRequestDto]),
     __metadata("design:returntype", void 0)
 ], CatsController.prototype, "login", null);
 __decorate([
@@ -90,7 +94,8 @@ CatsController = __decorate([
     (0, common_1.Controller)('cats'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
     (0, common_1.UseFilters)(http_exception_filter_1.HttpExceptionFilter),
-    __metadata("design:paramtypes", [cats_service_1.CatsService])
+    __metadata("design:paramtypes", [cats_service_1.CatsService,
+        auth_service_1.AuthService])
 ], CatsController);
 exports.CatsController = CatsController;
 //# sourceMappingURL=cats.controller.js.map
