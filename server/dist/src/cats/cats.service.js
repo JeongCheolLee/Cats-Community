@@ -17,6 +17,13 @@ let CatsService = class CatsService {
     constructor(catsRepository) {
         this.catsRepository = catsRepository;
     }
+    async uploadImg(cat, files) {
+        const fileName = `cats/${files[0].filename}`;
+        console.log(fileName);
+        const newCat = await this.catsRepository.findByIdAndUpdateImg, { cat, id, fileName, };
+        console.log(newCat);
+        return newCat;
+    }
     async signUp(body) {
         const { email, name, password } = body;
         const isCatExists = await this.catsRepository.existsByEmail(email);

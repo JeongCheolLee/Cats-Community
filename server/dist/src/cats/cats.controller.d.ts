@@ -1,3 +1,4 @@
+/// <reference types="multer" />
 import { LoginRequestDto } from './../../auth/dto/login.request.dto';
 import { AuthService } from './../../auth/auth.service';
 import { CatsService } from './cats.service';
@@ -15,5 +16,5 @@ export declare class CatsController {
     login(data: LoginRequestDto): Promise<{
         token: string;
     }>;
-    uploadCatImg(): string;
+    uploadCatImg(files: Array<Express.Multer.File>): any;
 }

@@ -21,6 +21,13 @@ let CatsRepository = class CatsRepository {
     constructor(catModel) {
         this.catModel = catModel;
     }
+    async findByIdAndUpdateImg(id, fileName) {
+        const cat = await this.catModel.findById(id);
+        cat.imgUrl = `http://localhost:8000/media/${fileName}`;
+        const newCat = await cat.save();
+        console.log(newCat);
+        return newCat.readOnlyData;
+    }
     async findCatByIdWithoutPassword(catId) {
         const cat = await this.catModel.findById(catId).select('-password');
         return cat;

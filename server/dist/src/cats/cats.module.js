@@ -10,10 +10,11 @@ exports.CatsModule = void 0;
 const auth_module_1 = require("../../auth/auth.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
-const cats_controller_1 = require("./cats.controller");
-const cats_service_1 = require("./cats.service");
+const cats_controller_1 = require("./controllers/cats.controller");
+const cats_service_1 = require("./services/cats.service");
 const cats_schema_1 = require("./cats.schema");
 const cats_repository_1 = require("./cats.repository");
+const platform_express_1 = require("@nestjs/platform-express");
 let CatsModule = class CatsModule {
 };
 CatsModule = __decorate([
@@ -21,6 +22,9 @@ CatsModule = __decorate([
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: cats_schema_1.Cat.name, schema: cats_schema_1.CatSchema }]),
             (0, common_1.forwardRef)(() => auth_module_1.AuthModule),
+            platform_express_1.MulterModule.register({
+                dest: './upload',
+            }),
         ],
         controllers: [cats_controller_1.CatsController],
         providers: [cats_service_1.CatsService, cats_repository_1.CatsRepository],

@@ -11,8 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CatsController = void 0;
+const multer_options_1 = require("./../common/utils/multer.options");
 const user_decorator_1 = require("./../common/decorators/user.decorator");
 const jwt_guard_1 = require("./../../auth/jwt/jwt.guard");
 const login_request_dto_1 = require("./../../auth/dto/login.request.dto");
@@ -24,6 +26,7 @@ const common_1 = require("@nestjs/common");
 const success_interceptor_1 = require("../common/interceptors/success.interceptor");
 const cats_request_dto_1 = require("./dto/cats.request.dto");
 const swagger_1 = require("@nestjs/swagger");
+const platform_express_1 = require("@nestjs/platform-express");
 let CatsController = class CatsController {
     constructor(catsService, authService) {
         this.catsService = catsService;
@@ -39,8 +42,9 @@ let CatsController = class CatsController {
     login(data) {
         return this.authService.jwtLogIn(data);
     }
-    uploadCatImg() {
-        return 'uploadImg';
+    uploadCatImg(files, cat) {
+        console.log(files);
+        return this.catsService.uploadImg(cat, files);
     }
 };
 __decorate([
@@ -79,17 +83,20 @@ __decorate([
 ], CatsController.prototype, "login", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '고양이 이미지 업로드' }),
-    (0, common_1.Post)('upload/cats'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('cats'))),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('upload'),
+    __param(0, (0, common_1.UploadedFiles)()),
+    __param(1, (0, user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Array, typeof (_a = typeof Cat !== "undefined" && Cat) === "function" ? _a : Object]),
     __metadata("design:returntype", void 0)
 ], CatsController.prototype, "uploadCatImg", null);
 CatsController = __decorate([
     (0, common_1.Controller)('cats'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
     (0, common_1.UseFilters)(http_exception_filter_1.HttpExceptionFilter),
-    __metadata("design:paramtypes", [cats_service_1.CatsService,
-        auth_service_1.AuthService])
+    __metadata("design:paramtypes", [typeof (_b = typeof cats_service_1.CatsService !== "undefined" && cats_service_1.CatsService) === "function" ? _b : Object, auth_service_1.AuthService])
 ], CatsController);
 exports.CatsController = CatsController;
 //# sourceMappingURL=cats.controller.js.map

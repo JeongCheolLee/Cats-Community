@@ -6,6 +6,7 @@ const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const expressBasicAuth = require("express-basic-auth");
+const path = require("path");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.useGlobalPipes(new common_1.ValidationPipe());
@@ -16,6 +17,9 @@ async function bootstrap() {
         },
         challenge: true,
     }));
+    app.useStaticAssets(path.join(__dirname, './common', 'uploads'), {
+        prefix: '/media',
+    });
     const config = new swagger_1.DocumentBuilder()
         .setTitle('C.I.C')
         .setDescription('cat')

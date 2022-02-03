@@ -65,7 +65,9 @@ __decorate([
         description: 'imgUrl',
         required: true,
     }),
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({
+        default: 'https://raw.githubusercontent.com/amamov/teaching-nestjs-a-to-z/main/images/1.jpeg',
+    }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], Cat.prototype, "imgUrl", void 0);
@@ -79,6 +81,7 @@ exports.CatSchema.virtual('readOnlyData').get(function () {
         id: this.id,
         email: this.email,
         name: this.name,
+        imgUrl: this.imgUrl,
     };
 });
 //# sourceMappingURL=cats.schema.js.map
