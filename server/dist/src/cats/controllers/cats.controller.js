@@ -46,6 +46,9 @@ let CatsController = class CatsController {
         console.log(files);
         return this.catsService.uploadImg(cat, files);
     }
+    getAllCat() {
+        return this.catsService.getAllCat();
+    }
 };
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '현재 고양이 가져오기' }),
@@ -93,6 +96,13 @@ __decorate([
         cats_schema_1.Cat]),
     __metadata("design:returntype", void 0)
 ], CatsController.prototype, "uploadCatImg", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: '모든 고양이 가져오기' }),
+    (0, common_1.Get)('all'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], CatsController.prototype, "getAllCat", null);
 CatsController = __decorate([
     (0, common_1.Controller)('cats'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),

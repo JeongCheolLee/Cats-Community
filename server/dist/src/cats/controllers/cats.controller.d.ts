@@ -22,4 +22,9 @@ export declare class CatsController {
         email: string;
         name: string;
     }>;
+    getAllCat(): Promise<{
+        id: string;
+        email: string;
+        name: string;
+    }[]>;
 }

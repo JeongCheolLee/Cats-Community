@@ -21,6 +21,9 @@ let CatsRepository = class CatsRepository {
     constructor(catModel) {
         this.catModel = catModel;
     }
+    async findAll() {
+        return await this.catModel.find();
+    }
     async findByIdAndUpdateImg(id, fileName) {
         const cat = await this.catModel.findById(id);
         cat.imgUrl = `http://localhost:8000/media/${fileName}`;

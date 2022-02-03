@@ -4,6 +4,9 @@ import { Cat } from './cats.schema';
 export declare class CatsRepository {
     private readonly catModel;
     constructor(catModel: Model<Cat>);
+    findAll(): Promise<(Cat & {
+        _id: any;
+    })[]>;
     findByIdAndUpdateImg(id: string, fileName: string): Promise<{
         id: string;
         email: string;
