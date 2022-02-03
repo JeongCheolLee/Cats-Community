@@ -5,10 +5,17 @@ const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
+const expressBasicAuth = require("express-basic-auth");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.useGlobalPipes(new common_1.ValidationPipe());
     app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
+    app.use(['/docs', '/docs-json'], expressBasicAuth({
+        users: {
+            [process.env.SWAGGER_USER]: process.env.SWAGGER_PASSWORD,
+        },
+        challenge: true,
+    }));
     const config = new swagger_1.DocumentBuilder()
         .setTitle('C.I.C')
         .setDescription('cat')

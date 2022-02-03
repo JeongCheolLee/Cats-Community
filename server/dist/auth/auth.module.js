@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
+const config_1 = require("@nestjs/config");
 const cats_module_1 = require("./../src/cats/cats.module");
 const jwt_strategy_1 = require("./jwt/jwt.strategy");
 const common_1 = require("@nestjs/common");
@@ -18,9 +19,10 @@ let AuthModule = class AuthModule {
 AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot(),
             passport_1.PassportModule.register({ defaultStrategy: 'jwt', session: false }),
             jwt_1.JwtModule.register({
-                secret: 'secret',
+                secret: process.env.JWT_SECRET,
                 signOptions: { expiresIn: '1y' },
             }),
             (0, common_1.forwardRef)(() => cats_module_1.CatsModule),
