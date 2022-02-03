@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { CatRequestDto } from './dto/cats.request.dto';
 import { Model } from 'mongoose';
 import { Cat } from './cats.schema';
@@ -11,8 +12,10 @@ export declare class CatsRepository {
         id: string;
         email: string;
         name: string;
+        imgUrl: string;
+        comments: import("src/comments/comments.schema").Comments[];
     }>;
-    findCatByIdWithoutPassword(catId: string): Promise<Cat | null>;
+    findCatByIdWithoutPassword(catId: string | Types.ObjectId): Promise<Cat | null>;
     findCatByEmail(email: string): Promise<Cat | null>;
     existsByEmail(email: string): Promise<boolean>;
     create(cat: CatRequestDto): Promise<Cat>;

@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
+import { Comments } from '../comments/comments.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { Document, SchemaOptions } from 'mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 
 const options: SchemaOptions = {
   timestamps: true,
@@ -11,7 +12,7 @@ const options: SchemaOptions = {
 @Schema(options)
 export class Cat extends Document {
   @ApiProperty({
-    example: 'id@domain.com',
+    example: 'amamov@kakao.com',
     description: 'email',
     required: true,
   })
@@ -24,8 +25,8 @@ export class Cat extends Document {
   email: string;
 
   @ApiProperty({
-    example: 'darkblue',
-    description: 'catName',
+    example: 'amamov',
+    description: 'name',
     required: true,
   })
   @Prop({
@@ -36,7 +37,7 @@ export class Cat extends Document {
   name: string;
 
   @ApiProperty({
-    example: 'abcd1234',
+    example: '23810',
     description: 'password',
     required: true,
   })
@@ -47,28 +48,42 @@ export class Cat extends Document {
   @IsNotEmpty()
   password: string;
 
-  @ApiProperty({
-    example: 'dwda/dawf/awdwfq.img',
-    description: 'imgUrl',
-    required: true,
-  })
   @Prop({
     default:
-      'https://raw.githubusercontent.com/amamov/teaching-nestjs-a-to-z/main/images/1.jpeg',
+      'https://github.com/amamov/NestJS-solid-restapi-boilerplate/raw/main/docs/images/1.jpeg',
   })
   @IsString()
   imgUrl: string;
 
-  readonly readOnlyData: { id: string; email: string; name: string };
+  readonly readOnlyData: {
+    id: string;
+    email: string;
+    name: string;
+    imgUrl: string;
+    comments: Comments[];
+  };
+
+  readonly comments: Comments[];
 }
 
-export const CatSchema = SchemaFactory.createForClass(Cat);
+const _CatSchema = SchemaFactory.createForClass(Cat);
 
-CatSchema.virtual('readOnlyData').get(function (this: Cat) {
+_CatSchema.virtual('readOnlyData').get(function (this: Cat) {
   return {
     id: this.id,
     email: this.email,
     name: this.name,
     imgUrl: this.imgUrl,
+    comments: this.comments,
   };
 });
+
+_CatSchema.virtual('comments', {
+  ref: 'comments',
+  localField: '_id',
+  foreignField: 'info',
+});
+_CatSchema.set('toObject', { virtuals: true });
+_CatSchema.set('toJSON', { virtuals: true });
+
+export const CatSchema = _CatSchema;

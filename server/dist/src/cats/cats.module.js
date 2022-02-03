@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CatsModule = void 0;
+const comments_schema_1 = require("./../comments/comments.schema");
 const auth_module_1 = require("../../auth/auth.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
@@ -20,7 +21,10 @@ let CatsModule = class CatsModule {
 CatsModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: cats_schema_1.Cat.name, schema: cats_schema_1.CatSchema }]),
+            mongoose_1.MongooseModule.forFeature([
+                { name: comments_schema_1.Comments.name, schema: comments_schema_1.CommentsSchema },
+                { name: cats_schema_1.Cat.name, schema: cats_schema_1.CatSchema },
+            ]),
             (0, common_1.forwardRef)(() => auth_module_1.AuthModule),
             platform_express_1.MulterModule.register({
                 dest: './upload',

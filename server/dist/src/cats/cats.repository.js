@@ -17,12 +17,18 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const cats_schema_1 = require("./cats.schema");
+const mongoose = require("mongoose");
+const comments_schema_1 = require("../comments/comments.schema");
 let CatsRepository = class CatsRepository {
     constructor(catModel) {
         this.catModel = catModel;
     }
     async findAll() {
-        return await this.catModel.find();
+        const CommentsModel = mongoose.model('comments', comments_schema_1.CommentsSchema);
+        const result = await this.catModel
+            .find()
+            .populate('comments', CommentsModel);
+        return result;
     }
     async findByIdAndUpdateImg(id, fileName) {
         const cat = await this.catModel.findById(id);

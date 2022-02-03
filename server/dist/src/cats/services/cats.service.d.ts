@@ -9,15 +9,21 @@ export declare class CatsService {
         id: string;
         email: string;
         name: string;
+        imgUrl: string;
+        comments: import("../../comments/comments.schema").Comments[];
     }[]>;
     uploadImg(cat: Cat, files: Express.Multer.File[]): Promise<{
         id: string;
         email: string;
         name: string;
+        imgUrl: string;
+        comments: import("../../comments/comments.schema").Comments[];
     }>;
     signUp(body: CatRequestDto): Promise<{
         id: string;
         email: string;
         name: string;
+        imgUrl: string;
+        comments: import("../../comments/comments.schema").Comments[];
     }>;
 }

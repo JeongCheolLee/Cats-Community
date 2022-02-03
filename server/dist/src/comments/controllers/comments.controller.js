@@ -55,7 +55,7 @@ __decorate([
     (0, swagger_1.ApiOperation)({
         summary: '좋아요 수 올리기',
     }),
-    (0, common_1.Post)(':id'),
+    (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

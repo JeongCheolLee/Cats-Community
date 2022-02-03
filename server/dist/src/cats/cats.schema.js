@@ -11,9 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CatSchema = exports.Cat = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const mongoose_2 = require("mongoose");
+const swagger_1 = require("@nestjs/swagger");
 const options = {
     timestamps: true,
 };
@@ -21,7 +21,7 @@ let Cat = class Cat extends mongoose_2.Document {
 };
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 'id@domain.com',
+        example: 'amamov@kakao.com',
         description: 'email',
         required: true,
     }),
@@ -35,8 +35,8 @@ __decorate([
 ], Cat.prototype, "email", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 'darkblue',
-        description: 'catName',
+        example: 'amamov',
+        description: 'name',
         required: true,
     }),
     (0, mongoose_1.Prop)({
@@ -48,7 +48,7 @@ __decorate([
 ], Cat.prototype, "name", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 'abcd1234',
+        example: '23810',
         description: 'password',
         required: true,
     }),
@@ -60,13 +60,8 @@ __decorate([
     __metadata("design:type", String)
 ], Cat.prototype, "password", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({
-        example: 'dwda/dawf/awdwfq.img',
-        description: 'imgUrl',
-        required: true,
-    }),
     (0, mongoose_1.Prop)({
-        default: 'https://raw.githubusercontent.com/amamov/teaching-nestjs-a-to-z/main/images/1.jpeg',
+        default: 'https://github.com/amamov/NestJS-solid-restapi-boilerplate/raw/main/docs/images/1.jpeg',
     }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
@@ -75,13 +70,22 @@ Cat = __decorate([
     (0, mongoose_1.Schema)(options)
 ], Cat);
 exports.Cat = Cat;
-exports.CatSchema = mongoose_1.SchemaFactory.createForClass(Cat);
-exports.CatSchema.virtual('readOnlyData').get(function () {
+const _CatSchema = mongoose_1.SchemaFactory.createForClass(Cat);
+_CatSchema.virtual('readOnlyData').get(function () {
     return {
         id: this.id,
         email: this.email,
         name: this.name,
         imgUrl: this.imgUrl,
+        comments: this.comments,
     };
 });
+_CatSchema.virtual('comments', {
+    ref: 'comments',
+    localField: '_id',
+    foreignField: 'info',
+});
+_CatSchema.set('toObject', { virtuals: true });
+_CatSchema.set('toJSON', { virtuals: true });
+exports.CatSchema = _CatSchema;
 //# sourceMappingURL=cats.schema.js.map

@@ -13,6 +13,8 @@ export declare class CatsController {
         id: string;
         email: string;
         name: string;
+        imgUrl: string;
+        comments: import("../../comments/comments.schema").Comments[];
     }>;
     login(data: LoginRequestDto): Promise<{
         token: string;
@@ -21,10 +23,14 @@ export declare class CatsController {
         id: string;
         email: string;
         name: string;
+        imgUrl: string;
+        comments: import("../../comments/comments.schema").Comments[];
     }>;
     getAllCat(): Promise<{
         id: string;
         email: string;
         name: string;
+        imgUrl: string;
+        comments: import("../../comments/comments.schema").Comments[];
     }[]>;
 }
